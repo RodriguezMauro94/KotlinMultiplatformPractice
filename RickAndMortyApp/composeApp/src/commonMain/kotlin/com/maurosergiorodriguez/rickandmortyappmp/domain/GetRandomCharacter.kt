@@ -1,10 +1,12 @@
 package com.maurosergiorodriguez.rickandmortyappmp.domain
 
+import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
+
 class GetRandomCharacter(
     val repository: Repository
 ) {
-    suspend operator fun invoke() {
+    suspend operator fun invoke(): CharacterModel {
         val randomId = (1 .. 826).random()
-        repository.getSingleCharacter(randomId.toString())
+        return repository.getSingleCharacter(randomId.toString())
     }
 }
