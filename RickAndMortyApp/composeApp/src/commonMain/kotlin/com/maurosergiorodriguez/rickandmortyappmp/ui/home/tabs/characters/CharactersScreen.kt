@@ -24,3 +24,8 @@ fun CharactersScreen() {
         }
     }
 }
+
+@Composable
+fun CharacterOfTheDay(title: String) {
+    Text(title)
+}
