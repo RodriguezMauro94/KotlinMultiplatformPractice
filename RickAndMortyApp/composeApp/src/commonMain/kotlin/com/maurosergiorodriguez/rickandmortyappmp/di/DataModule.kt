@@ -2,6 +2,7 @@ package com.maurosergiorodriguez.rickandmortyappmp.di
 
 import com.maurosergiorodriguez.rickandmortyappmp.data.RepositoryImpl
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.ApiService
+import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.CharactersPagingSource
 import com.maurosergiorodriguez.rickandmortyappmp.domain.Repository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
@@ -32,5 +33,6 @@ val dataModule = module {
     }
 
     factoryOf(::ApiService)
-    factory <Repository> { RepositoryImpl(get()) }
+    factory <Repository> { RepositoryImpl(get(), get()) }
+    factoryOf(::CharactersPagingSource)
 }
