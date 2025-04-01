@@ -39,8 +39,11 @@ import app.cash.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.ex.vertical
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import rickandmortyapp.composeapp.generated.resources.Res
+import rickandmortyapp.composeapp.generated.resources.rickface
 
 @Composable
 @OptIn(KoinExperimentalAPI::class)
@@ -109,9 +112,9 @@ fun CharacterItemList(characterModel: CharacterModel) {
             Color.Green,
             shape = RoundedCornerShape(0, 24, 0, 2)
         )
-        .fillMaxSize()
+        .fillMaxWidth()
+        .height(175.dp)
         .clickable {
-
         },
         contentAlignment = Alignment.BottomCenter
     ) {
@@ -119,7 +122,8 @@ fun CharacterItemList(characterModel: CharacterModel) {
             model = characterModel.image,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            placeholder = painterResource(Res.drawable.rickface)
         )
 
         Box(
