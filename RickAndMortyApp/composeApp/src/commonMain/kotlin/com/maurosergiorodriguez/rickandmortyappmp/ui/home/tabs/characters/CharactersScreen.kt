@@ -51,10 +51,7 @@ fun CharactersScreen() {
     val charactersViewModel = koinViewModel<CharactersViewModel>()
     val state by charactersViewModel.state.collectAsState()
     val characters = state.characters.collectAsLazyPagingItems()
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        CharactersGridList(state, characters)
-    }
+    CharactersGridList(state, characters)
 }
 
 @Composable
@@ -86,9 +83,9 @@ fun CharactersGridList(state: CharactersState, characters: LazyPagingItems<Chara
             }
             else -> {
                 // Fetch items
-                if (characters.loadState.refresh is LoadState.Loading) {
+                if (characters.loadState.append is LoadState.Loading) {
                     item(span = { GridItemSpan(2) }) {
-                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Box(modifier = Modifier.fillMaxHeight().height(100.dp), contentAlignment = Alignment.Center) {
                             CircularProgressIndicator(Modifier.size(64.dp), color = Color.Red)
                         }
                     }
@@ -147,8 +144,8 @@ fun CharacterItemList(characterModel: CharacterModel) {
 fun CharacterOfTheDay(characterOfTheDay: CharacterModel? = null) {
     Card(modifier = Modifier.fillMaxWidth().height(400.dp), shape = RoundedCornerShape(percent = 12)) {
         if (characterOfTheDay == null) {
-            Box(contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(color = Color.Green)
             }
         } else {
             Box(contentAlignment = Alignment.BottomStart) {
