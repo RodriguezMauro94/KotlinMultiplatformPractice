@@ -17,6 +17,9 @@ class GetRandomCharacter(
             return repository.getSingleCharacter(randomId.toString())
         }
         */
+
+        repository.getCharacterDB()
+
         val randomId = (1 .. 826).random()
         return repository.getSingleCharacter(randomId.toString())
     }
