@@ -3,7 +3,7 @@ package com.maurosergiorodriguez.rickandmortyappmp.data.database.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity("characterOfTheDay")
 data class CharacterOfTheDayEntity(
     @PrimaryKey
     val id: Int,
