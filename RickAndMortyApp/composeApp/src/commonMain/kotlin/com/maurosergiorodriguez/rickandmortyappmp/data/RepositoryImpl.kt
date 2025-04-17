@@ -4,10 +4,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.maurosergiorodriguez.rickandmortyappmp.data.database.RickAndMortyDatabase
+import com.maurosergiorodriguez.rickandmortyappmp.data.database.entity.CharacterOfTheDayEntity
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.ApiService
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.CharactersPagingSource
 import com.maurosergiorodriguez.rickandmortyappmp.domain.Repository
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
+import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterOfTheDayModel
 import kotlinx.coroutines.flow.Flow
 
 class RepositoryImpl(
@@ -29,7 +31,11 @@ class RepositoryImpl(
             pagingSourceFactory = { charactersPagingSource }).flow
     }
 
-    override suspend fun getCharacterDB() {
-        rickAndMortyDatabase.getPreferencesDao().getCharacterOfTheDayDB()
+    override suspend fun getCharacterDB(): CharacterOfTheDayModel? {
+        return rickAndMortyDatabase.getPreferencesDao().getCharacterOfTheDayDB()?.toDomain()
+    }
+
+    override suspend fun saveCharacterDB(characterOfTheDay: CharacterOfTheDayModel) {
+        rickAndMortyDatabase.getPreferencesDao().saveCharacter(characterOfTheDay.toEntity())
     }
 }

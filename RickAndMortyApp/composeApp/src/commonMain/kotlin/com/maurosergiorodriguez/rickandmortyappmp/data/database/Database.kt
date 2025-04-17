@@ -9,7 +9,7 @@ import com.maurosergiorodriguez.rickandmortyappmp.data.database.entity.Character
 
 const val DATABASE_NAME = "rm_app_database.db"
 
-@Database(entities = [CharacterOfTheDayEntity::class], version = 1)
+@Database(entities = [CharacterOfTheDayEntity::class], version = 2)
 @ConstructedBy(RickAndMortyCTor::class)
 abstract class RickAndMortyDatabase: RoomDatabase() {
     abstract fun getPreferencesDao(): UserPreferencesDAO
