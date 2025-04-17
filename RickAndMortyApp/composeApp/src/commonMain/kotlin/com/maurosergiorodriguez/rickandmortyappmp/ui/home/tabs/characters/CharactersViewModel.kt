@@ -2,6 +2,7 @@ package com.maurosergiorodriguez.rickandmortyappmp.ui.home.tabs.characters
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.maurosergiorodriguez.rickandmortyappmp.domain.GetRandomCharacter
 import com.maurosergiorodriguez.rickandmortyappmp.domain.Repository
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,6 @@ class CharactersViewModel(
     }
 
     private fun getAllCharacters() {
-        _state.update { state -> state.copy(characters = repository.getAllCharacters()) }
+        _state.update { state -> state.copy(characters = repository.getAllCharacters().cachedIn(viewModelScope)) }
     }
 }
