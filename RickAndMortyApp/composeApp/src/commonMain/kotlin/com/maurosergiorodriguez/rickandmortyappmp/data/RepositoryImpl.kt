@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 class RepositoryImpl(
     private val apiService: ApiService,
     private val charactersPagingSource: CharactersPagingSource,
+    private val episodesPagingSource: EpisodesPagingSource,
     private val rickAndMortyDatabase: RickAndMortyDatabase
 ): Repository {
     companion object {
