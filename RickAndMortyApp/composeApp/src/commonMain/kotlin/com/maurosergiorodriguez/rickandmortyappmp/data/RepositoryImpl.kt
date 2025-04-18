@@ -7,9 +7,11 @@ import com.maurosergiorodriguez.rickandmortyappmp.data.database.RickAndMortyData
 import com.maurosergiorodriguez.rickandmortyappmp.data.database.entity.CharacterOfTheDayEntity
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.ApiService
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.CharactersPagingSource
+import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.EpisodesPagingSource
 import com.maurosergiorodriguez.rickandmortyappmp.domain.Repository
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterOfTheDayModel
+import com.maurosergiorodriguez.rickandmortyappmp.domain.model.EpisodeModel
 import kotlinx.coroutines.flow.Flow
 
 class RepositoryImpl(
@@ -28,8 +30,17 @@ class RepositoryImpl(
     }
 
     override fun getAllCharacters(): Flow<PagingData<CharacterModel>> {
-        return Pager(config = PagingConfig(pageSize = MAX_ITEMS, prefetchDistance = PREFETCH_ITEMS),
-            pagingSourceFactory = { charactersPagingSource }).flow
+        return Pager(
+            config = PagingConfig(pageSize = MAX_ITEMS, prefetchDistance = PREFETCH_ITEMS),
+            pagingSourceFactory = { charactersPagingSource }
+        ).flow
+    }
+
+    override fun getAllEpisodes(): Flow<PagingData<EpisodeModel>> {
+        return Pager(
+            config = PagingConfig(pageSize = MAX_ITEMS, prefetchDistance = PREFETCH_ITEMS),
+            pagingSourceFactory = { episodesPagingSource }
+        ).flow
     }
 
     override suspend fun getCharacterDB(): CharacterOfTheDayModel? {
