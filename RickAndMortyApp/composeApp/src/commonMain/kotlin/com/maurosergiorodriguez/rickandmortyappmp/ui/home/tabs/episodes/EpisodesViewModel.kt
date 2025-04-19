@@ -10,11 +10,17 @@ import kotlinx.coroutines.flow.update
 
 class EpisodesViewModel(private val repository: Repository): ViewModel() {
     private val _state = MutableStateFlow<EpisodeState>(EpisodeState())
-    val state: StateFlow<EpisodeState> = _state
 
+    val state: StateFlow<EpisodeState> = _state
     init {
         _state.update { state ->
             state.copy(episodes = repository.getAllEpisodes().cachedIn(viewModelScope ))
+        }
+    }
+
+    fun onEpisodeSelected(url: String) {
+        _state.update { state ->
+            state.copy(playVideo = url)
         }
     }
 }

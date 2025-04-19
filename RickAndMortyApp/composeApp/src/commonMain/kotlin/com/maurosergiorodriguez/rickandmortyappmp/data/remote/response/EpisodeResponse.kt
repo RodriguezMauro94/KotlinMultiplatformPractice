@@ -40,14 +40,14 @@ data class EpisodeResponse (
 
     private fun getVideoURLFromSeason(season: SeasonEpisode): String {
         return when(season) {
-            SEASON_1 -> "https://www.youtube.com/watch?v=8BEzj2kRjO8&ab_channel=RottenTomatoesTV"
-            SEASON_2 -> "https://www.youtube.com/watch?v=SXwf_9xJu5c&ab_channel=Yusuto"
-            SEASON_3 -> "https://www.youtube.com/watch?v=Bmg2vXOQ3kM&ab_channel=SeriesTrailerMP"
-            SEASON_4 -> "https://www.youtube.com/watch?v=bLI2-v264No&ab_channel=RottenTomatoesTV"
-            SEASON_5 -> "https://www.youtube.com/watch?v=yC1UxW8vcDo&ab_channel=RottenTomatoesTV"
-            SEASON_6 -> "https://www.youtube.com/watch?v=jerFRSQW9g8&ab_channel=RottenTomatoesTV"
-            SEASON_7 -> "https://www.youtube.com/watch?v=PkZtVBNkmso&ab_channel=RottenTomatoesTV"
-            else -> ""
+            SEASON_1 -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
+            SEASON_2 -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
+            SEASON_3 -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
+            SEASON_4 -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
+            SEASON_5 -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
+            SEASON_6 -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
+            SEASON_7 -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
+            else -> "https://firebasestorage.googleapis.com/v0/b/kt-mp-ex-id.firebasestorage.app/o/yt1z.net%20-%20Rick%20and%20Morty%20Theatrical%20Trailer%20HD%20(480p)%20(1).mp4?alt=media&token=4f108011-0187-4b33-969a-d635cfeaa361"
         }
     }
 }

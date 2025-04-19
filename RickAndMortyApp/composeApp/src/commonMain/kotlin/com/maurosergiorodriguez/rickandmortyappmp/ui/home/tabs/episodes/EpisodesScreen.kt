@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,6 +24,7 @@ import com.maurosergiorodriguez.rickandmortyappmp.domain.model.SeasonEpisode
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingLoadingState
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingType
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingWrapper
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.VideoPlayer
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -43,7 +45,7 @@ fun EpisodesScreen() {
     val state by episodesViewModel.state.collectAsState()
     val episodes = state.episodes.collectAsLazyPagingItems()
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         PagingWrapper(
             pagingType = PagingType.ROW,
             pagingItems = episodes,
@@ -51,17 +53,22 @@ fun EpisodesScreen() {
                 PagingLoadingState()
             },
             itemView = {
-                EpisodeItemList(it)
+                EpisodeItemList(it) { url ->
+                    episodesViewModel.onEpisodeSelected(url)
+                }
             }
         )
+        if (state.playVideo.isNotBlank()) {
+            VideoPlayer(modifier = Modifier.size(200.dp), state.playVideo)
+        }
     }
 }
 
 @Composable
-fun EpisodeItemList(episode: EpisodeModel) {
+fun EpisodeItemList(episode: EpisodeModel, onEpisodeSelected: (String) -> Unit) {
     Column(
         modifier = Modifier.width(120.dp).padding(horizontal = 8.dp).clickable {
-            // TODO
+            onEpisodeSelected(episode.videoURL)
         }
     ) {
         Image(
