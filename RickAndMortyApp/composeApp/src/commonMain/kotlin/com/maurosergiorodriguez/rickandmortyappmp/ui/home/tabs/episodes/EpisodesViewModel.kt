@@ -23,4 +23,10 @@ class EpisodesViewModel(private val repository: Repository): ViewModel() {
             state.copy(playVideo = url)
         }
     }
+
+    fun onCloseVideo() {
+        _state.update { state ->
+            state.copy(playVideo = "")
+        }
+    }
 }

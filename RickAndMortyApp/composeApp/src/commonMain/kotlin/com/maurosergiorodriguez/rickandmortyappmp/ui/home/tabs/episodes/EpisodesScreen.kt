@@ -1,19 +1,26 @@
 package com.maurosergiorodriguez.rickandmortyappmp.ui.home.tabs.episodes
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -30,6 +37,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import rickandmortyapp.composeapp.generated.resources.Res
+import rickandmortyapp.composeapp.generated.resources.portal
 import rickandmortyapp.composeapp.generated.resources.season1
 import rickandmortyapp.composeapp.generated.resources.season2
 import rickandmortyapp.composeapp.generated.resources.season3
@@ -58,8 +66,31 @@ fun EpisodesScreen() {
                 }
             }
         )
-        if (state.playVideo.isNotBlank()) {
-            VideoPlayer(modifier = Modifier.size(200.dp), state.playVideo)
+        EpisodePlayer(state.playVideo) {
+            episodesViewModel.onCloseVideo()
+        }
+    }
+}
+
+@Composable
+fun EpisodePlayer(playVideo: String, onCloseVideo: () -> Unit) {
+    AnimatedVisibility (playVideo.isNotBlank()) {
+        ElevatedCard(modifier = Modifier.fillMaxWidth().height(250.dp).padding(16.dp).border(3.dp, color = Color.Green, shape = CardDefaults.elevatedShape)) {
+            Box(modifier = Modifier.background(Color.Black)) {
+                Box(modifier = Modifier.padding(16.dp), contentAlignment = Alignment.Center) {
+                    VideoPlayer(modifier = Modifier.fillMaxWidth().height(200.dp), playVideo)
+                }
+                Row {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Image(
+                        painterResource(Res.drawable.portal),
+                        contentDescription = "",
+                        modifier = Modifier.size(40.dp).padding(8.dp).clickable {
+                            onCloseVideo()
+                        }
+                    )
+                }
+            }
         }
     }
 }
