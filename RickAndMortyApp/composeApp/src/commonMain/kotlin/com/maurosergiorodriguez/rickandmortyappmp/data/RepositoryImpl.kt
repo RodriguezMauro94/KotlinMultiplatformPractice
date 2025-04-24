@@ -4,7 +4,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.maurosergiorodriguez.rickandmortyappmp.data.database.RickAndMortyDatabase
-import com.maurosergiorodriguez.rickandmortyappmp.data.database.entity.CharacterOfTheDayEntity
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.ApiService
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.CharactersPagingSource
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.EpisodesPagingSource
