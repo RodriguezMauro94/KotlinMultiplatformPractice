@@ -17,7 +17,7 @@ import com.maurosergiorodriguez.rickandmortyappmp.ui.core.navigation.bottomBarNa
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.navigation.bottomBarNavigation.NavigationBottomWrapper
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(mainNavController: NavHostController) {
     val bottomBarItems = listOf(
         BottomBarItem.Episodes(),
         BottomBarItem.Characters()
@@ -28,7 +28,7 @@ fun HomeScreen() {
         bottomBar = { BottomNavigation(bottomBarItems, navController) }
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            NavigationBottomWrapper(navController)
+            NavigationBottomWrapper(navController, mainNavController)
         }
     }
 }

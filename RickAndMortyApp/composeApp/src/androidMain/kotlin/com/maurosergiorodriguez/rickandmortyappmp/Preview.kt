@@ -8,10 +8,12 @@ import com.maurosergiorodriguez.rickandmortyappmp.ui.home.tabs.characters.Charac
 @Composable
 @Preview(showBackground = true)
 fun Preview() {
-    CharacterOfTheDay(CharacterModel(
-        id = 3,
-        image = "",
-        isAlive = true,
-        name = "Morty"
-    ))
+    CharacterOfTheDay(
+        CharacterModel(
+            id = 3,
+            image = "",
+            isAlive = true,
+            name = "Morty"
+        ), navigateToDetail
+    )
 }

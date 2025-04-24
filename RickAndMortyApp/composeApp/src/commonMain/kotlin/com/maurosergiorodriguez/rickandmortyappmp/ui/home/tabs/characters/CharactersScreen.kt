@@ -48,15 +48,19 @@ import rickandmortyapp.composeapp.generated.resources.rickface
 
 @Composable
 @OptIn(KoinExperimentalAPI::class)
-fun CharactersScreen() {
+fun CharactersScreen(navigateToDetail: (characterModel: CharacterModel) -> Unit) {
     val charactersViewModel = koinViewModel<CharactersViewModel>()
     val state by charactersViewModel.state.collectAsState()
     val characters = state.characters.collectAsLazyPagingItems()
-    CharactersGridList(state, characters)
+    CharactersGridList(state, characters, navigateToDetail)
 }
 
 @Composable
-fun CharactersGridList(state: CharactersState, characters: LazyPagingItems<CharacterModel>) {
+fun CharactersGridList(
+    state: CharactersState,
+    characters: LazyPagingItems<CharacterModel>,
+    navigateToDetail: (characterModel: CharacterModel) -> Unit
+) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
         columns = GridCells.Fixed(2),
@@ -67,7 +71,9 @@ fun CharactersGridList(state: CharactersState, characters: LazyPagingItems<Chara
         item(span = { GridItemSpan(2) }) {
             Column {
                 Text("Characters", color = Color.Black, fontSize = 24.sp)
-                CharacterOfTheDay(state.characterOfTheDay)
+                CharacterOfTheDay(state.characterOfTheDay) {
+                    navigateToDetail(it)
+                }
             }
         }
 
@@ -97,7 +103,9 @@ fun CharactersGridList(state: CharactersState, characters: LazyPagingItems<Chara
                 } else {
                     items(characters.itemCount) { pos ->
                         characters[pos]?.let { characterModel ->
-                            CharacterItemList(characterModel)
+                            CharacterItemList(characterModel) {
+                                navigateToDetail(it)
+                            }
                         }
                     }
                 }
@@ -107,7 +115,7 @@ fun CharactersGridList(state: CharactersState, characters: LazyPagingItems<Chara
 }
 
 @Composable
-fun CharacterItemList(characterModel: CharacterModel) {
+fun CharacterItemList(characterModel: CharacterModel, onItemSelect: (characterModel: CharacterModel) -> Unit) {
     Box(modifier = Modifier.clip(RoundedCornerShape(24))
         .border(
             2.dp,
@@ -117,6 +125,7 @@ fun CharacterItemList(characterModel: CharacterModel) {
         .fillMaxWidth()
         .height(175.dp)
         .clickable {
+            onItemSelect(characterModel)
         },
         contentAlignment = Alignment.BottomCenter
     ) {
@@ -146,8 +155,12 @@ fun CharacterItemList(characterModel: CharacterModel) {
 }
 
 @Composable
-fun CharacterOfTheDay(characterOfTheDay: CharacterModel? = null) {
-    Card(modifier = Modifier.fillMaxWidth().height(400.dp), shape = RoundedCornerShape(percent = 12)) {
+fun CharacterOfTheDay(characterOfTheDay: CharacterModel? = null, onItemSelect: (characterModel: CharacterModel) -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth().height(400.dp).clickable {
+        characterOfTheDay?.let {
+            onItemSelect(it)
+        }
+    }, shape = RoundedCornerShape(percent = 12)) {
         if (characterOfTheDay == null) {
             Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                 CircularProgressIndicator(color = Color.Green)
