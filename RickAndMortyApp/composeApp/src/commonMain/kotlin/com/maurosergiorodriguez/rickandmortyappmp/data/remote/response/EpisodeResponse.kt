@@ -18,9 +18,10 @@ data class EpisodeResponse (
             id = id,
             name = name,
             characters = characters.map {
-                it.substringAfter("/")
+                it.substringAfterLast("/")
             },
             season = season,
+            episode = episode,
             videoURL = getVideoURLFromSeason(season)
         )
     }

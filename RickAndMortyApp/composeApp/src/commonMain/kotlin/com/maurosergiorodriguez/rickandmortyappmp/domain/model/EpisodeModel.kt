@@ -3,6 +3,7 @@ package com.maurosergiorodriguez.rickandmortyappmp.domain.model
 data class EpisodeModel(
     val id: Int,
     val name: String,
+    val episode: String,
     val characters: List<String>,
     val videoURL: String,
     val season: SeasonEpisode

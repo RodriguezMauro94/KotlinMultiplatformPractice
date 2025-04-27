@@ -7,6 +7,7 @@ import com.maurosergiorodriguez.rickandmortyappmp.data.database.RickAndMortyData
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.ApiService
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.CharactersPagingSource
 import com.maurosergiorodriguez.rickandmortyappmp.data.remote.paging.EpisodesPagingSource
+import com.maurosergiorodriguez.rickandmortyappmp.data.remote.response.EpisodeResponse
 import com.maurosergiorodriguez.rickandmortyappmp.domain.Repository
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterOfTheDayModel
@@ -48,5 +49,17 @@ class RepositoryImpl(
 
     override suspend fun saveCharacterDB(characterOfTheDay: CharacterOfTheDayModel) {
         rickAndMortyDatabase.getPreferencesDao().saveCharacter(characterOfTheDay.toEntity())
+    }
+
+    override suspend fun getEpisodesForCharacter(episodes: List<String>): List<EpisodeModel> {
+        return if(episodes.isEmpty()){
+            emptyList()
+        } else if (episodes.size == 1) {
+            listOf(apiService.getEpisode(episodes.first()).toDomain())
+        } else {
+            apiService.getEpisodes(episodes.joinToString(",")).map { episodeResponse ->
+                episodeResponse.toDomain()
+            }
+        }
     }
 }

@@ -26,7 +26,7 @@ data class CharacterResponse(
             gender = gender,
             origin = origin.name,
             episodes = episodes.map {
-                it.substringAfter("/")
+                it.substringAfterLast("/")
             }
         )
     }
