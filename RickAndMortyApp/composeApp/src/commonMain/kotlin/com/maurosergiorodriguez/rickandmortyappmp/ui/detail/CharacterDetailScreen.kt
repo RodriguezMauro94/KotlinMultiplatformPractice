@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
@@ -29,12 +31,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.EpisodeModel
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundPrimaryColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundSecondaryColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundTertiaryColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.DefaultTextColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.Green
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.Pink
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.TextTitle
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.ex.aliveBackground
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.ex.aliveBorder
 import org.jetbrains.compose.resources.painterResource
@@ -52,12 +62,22 @@ fun CharacterDetailScreen(characterModel: CharacterModel) {
     val scrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.White).verticalScroll(scrollState)
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+            .background(BackgroundPrimaryColor)
     ) {
         MainHeader(state.characterModel)
-        CharacterInformation(state.characterModel)
-        Spacer(modifier = Modifier.height(6.dp))
-        CharacterEpisodesList(state.episodes)
+        Spacer(modifier = Modifier.height(8.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(percent = 5))
+                .background(BackgroundSecondaryColor)
+        ) {
+            CharacterInformation(state.characterModel)
+            CharacterEpisodesList(state.episodes)
+        }
     }
 }
 
@@ -90,7 +110,14 @@ fun CharacterHeader(characterModel: CharacterModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(characterModel.name, color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = characterModel.name,
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = Pink,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
             Text("Especie: ${characterModel.species}", color = Color.Black)
         }
 
@@ -136,13 +163,13 @@ fun CharacterHeader(characterModel: CharacterModel) {
 @Composable
 fun CharacterInformation(characterModel: CharacterModel) {
     ElevatedCard(
-        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth()
+        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+        colors = CardDefaults.elevatedCardColors().copy(containerColor = BackgroundTertiaryColor)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text("About the character".toUpperCase(Locale.current))
-            Spacer(modifier = Modifier.height(4.dp))
+            TextTitle("About the character")
             InformationDetail("Origin: ", characterModel.origin)
             Spacer(modifier = Modifier.height(2.dp))
             InformationDetail("Gender: ", characterModel.gender)
@@ -153,25 +180,29 @@ fun CharacterInformation(characterModel: CharacterModel) {
 @Composable
 fun InformationDetail(title: String, detail: String) {
     Row {
-        Text(title, color = Color.Black, fontWeight = FontWeight.Bold)
-        Text(detail, color = Color.Green)
+        Text(title, color = DefaultTextColor, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(detail, color = Green)
     }
 }
 
 @Composable
 fun CharacterEpisodesList(episodes: List<EpisodeModel>?) {
     ElevatedCard(
-        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth()
+        modifier = Modifier.padding(16.dp).fillMaxWidth(), colors = CardDefaults.elevatedCardColors().copy(containerColor = BackgroundTertiaryColor)
     ) {
-        Box(contentAlignment = Alignment.Center) {
+        Box(
+            contentAlignment = Alignment.Center
+        ) {
             if (episodes == null) {
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    CircularProgressIndicator(color = Color.Green)
+                    CircularProgressIndicator(color = Green)
                 }
             } else {
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
+                    TextTitle("Episodes")
                     episodes.forEach { episode ->
                         EpisodeItem(episode)
                         Spacer(modifier = Modifier.height(6.dp))
@@ -184,6 +215,6 @@ fun CharacterEpisodesList(episodes: List<EpisodeModel>?) {
 
 @Composable
 fun EpisodeItem(episode: EpisodeModel) {
-    Text(episode.name)
-    Text(episode.episode)
+    Text(episode.name, color = Green, fontWeight = FontWeight.Bold)
+    Text(episode.episode, color = DefaultTextColor)
 }
