@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.Green
 
 fun Modifier.vertical() = layout { measurable, constraints ->
     val placeable = measurable.measure(constraints)
@@ -27,6 +28,6 @@ fun Modifier.aliveBackground(isAlive: Boolean): Modifier {
 }
 
 private fun aliveColor(isAlive: Boolean): Color {
-    val color = if (isAlive) Color.Green else Color.Red
+    val color = if (isAlive) Green else Color.Red
     return color
 }
