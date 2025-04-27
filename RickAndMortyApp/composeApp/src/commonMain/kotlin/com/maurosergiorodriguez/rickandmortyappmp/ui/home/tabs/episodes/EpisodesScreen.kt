@@ -1,5 +1,6 @@
 package com.maurosergiorodriguez.rickandmortyappmp.ui.home.tabs.episodes
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,10 +26,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.EpisodeModel
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.SeasonEpisode
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundPlaceholderColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundPrimaryColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundSecondaryColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundTertiaryColor
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.DefaultTextColor
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingLoadingState
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingType
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingWrapper
@@ -37,6 +46,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import rickandmortyapp.composeapp.generated.resources.Res
+import rickandmortyapp.composeapp.generated.resources.placeholder
 import rickandmortyapp.composeapp.generated.resources.portal
 import rickandmortyapp.composeapp.generated.resources.season1
 import rickandmortyapp.composeapp.generated.resources.season2
@@ -53,7 +63,8 @@ fun EpisodesScreen() {
     val state by episodesViewModel.state.collectAsState()
     val episodes = state.episodes.collectAsLazyPagingItems()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(BackgroundPrimaryColor)) {
+        Spacer(Modifier.height(16.dp))
         PagingWrapper(
             pagingType = PagingType.ROW,
             pagingItems = episodes,
@@ -74,20 +85,43 @@ fun EpisodesScreen() {
 
 @Composable
 fun EpisodePlayer(playVideo: String, onCloseVideo: () -> Unit) {
-    AnimatedVisibility (playVideo.isNotBlank()) {
-        ElevatedCard(modifier = Modifier.fillMaxWidth().height(250.dp).padding(16.dp).border(3.dp, color = Color.Green, shape = CardDefaults.elevatedShape)) {
-            Box(modifier = Modifier.background(Color.Black)) {
-                Box(modifier = Modifier.padding(16.dp), contentAlignment = Alignment.Center) {
-                    VideoPlayer(modifier = Modifier.fillMaxWidth().height(200.dp), playVideo)
+    AnimatedContent(playVideo.isNotBlank()) { condition ->
+        if (condition) {
+            ElevatedCard(modifier = Modifier.fillMaxWidth().height(250.dp).padding(16.dp).border(3.dp, color = Color.Green, shape = CardDefaults.elevatedShape)) {
+                Box(modifier = Modifier.background(Color.Black)) {
+                    Box(modifier = Modifier.padding(16.dp), contentAlignment = Alignment.Center) {
+                        VideoPlayer(modifier = Modifier.fillMaxWidth().height(200.dp), playVideo)
+                    }
+                    Row {
+                        Spacer(modifier = Modifier.weight(1f))
+                        Image(
+                            painterResource(Res.drawable.portal),
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp).padding(8.dp).clickable {
+                                onCloseVideo()
+                            }
+                        )
+                    }
                 }
-                Row {
-                    Spacer(modifier = Modifier.weight(1f))
+            }
+        } else {
+            ElevatedCard(
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                colors = CardDefaults.elevatedCardColors().copy(containerColor = BackgroundPlaceholderColor)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Image(
-                        painterResource(Res.drawable.portal),
-                        contentDescription = "",
-                        modifier = Modifier.size(40.dp).padding(8.dp).clickable {
-                            onCloseVideo()
-                        }
+                        painter = painterResource(Res.drawable.placeholder),
+                        contentDescription = ""
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        "Aw, jeez, you gotta click the vide, guys! I mean, it might be important or something!",
+                        color = DefaultTextColor,
+                        fontStyle = FontStyle.Italic,
+                        modifier = Modifier.padding(16.dp)
                     )
                 }
             }
@@ -103,11 +137,13 @@ fun EpisodeItemList(episode: EpisodeModel, onEpisodeSelected: (String) -> Unit) 
         }
     ) {
         Image(
-            modifier = Modifier.height(200.dp).fillMaxWidth(),
+            modifier = Modifier.height(180.dp).fillMaxWidth(),
             contentDescription = null,
-            contentScale = ContentScale.Inside,
+            contentScale = ContentScale.Crop,
             painter = painterResource(getSeasonImage(episode.season))
         )
+        Spacer(Modifier.height(2.dp))
+        Text(episode.episode, color = DefaultTextColor, fontWeight = FontWeight.Bold)
     }
 }
 
