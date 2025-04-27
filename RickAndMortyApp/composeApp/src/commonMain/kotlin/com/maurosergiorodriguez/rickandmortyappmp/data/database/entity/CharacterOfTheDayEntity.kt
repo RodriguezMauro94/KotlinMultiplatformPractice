@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
 import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterOfTheDayModel
+import kotlinx.serialization.json.Json
 
 @Entity("characterOfTheDay")
 data class CharacterOfTheDayEntity(
@@ -13,16 +14,22 @@ data class CharacterOfTheDayEntity(
     val image: String,
     val name: String,
     val species: String,
+    val gender: String,
+    val origin: String,
+    val episodes: String,
     val selectedDay: String
 ) {
     fun toDomain(): CharacterOfTheDayModel {
         return CharacterOfTheDayModel(
             characterModel = CharacterModel(
-                id,
-                isAlive,
-                image,
-                name,
-                species
+                id = id,
+                isAlive = isAlive,
+                image = image,
+                name = name,
+                species = species,
+                gender = gender,
+                origin = origin,
+                episodes = Json.decodeFromString<List<String>>(episodes)
             ),
             selectedDay = selectedDay
         )

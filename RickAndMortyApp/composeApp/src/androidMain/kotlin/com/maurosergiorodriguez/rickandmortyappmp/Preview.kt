@@ -9,13 +9,5 @@ import com.maurosergiorodriguez.rickandmortyappmp.ui.detail.MainHeader
 @Composable
 @Preview(showBackground = true)
 fun Preview() {
-    MainHeader(
-        CharacterModel(
-            1,
-            true,
-            "image",
-            "Rick",
-            "Humano"
-        )
-    )
+
 }

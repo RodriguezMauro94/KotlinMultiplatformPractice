@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,6 +25,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -45,7 +49,8 @@ fun CharacterDetailScreen(characterModel: CharacterModel) {
     Column(
         modifier = Modifier.fillMaxSize().background(Color.White)
     ) {
-        MainHeader(characterModel)
+        MainHeader(state.characterModel)
+        CharacterInformation(state.characterModel)
     }
 }
 
@@ -118,5 +123,30 @@ fun CharacterHeader(characterModel: CharacterModel) {
             }
             Spacer(modifier = Modifier.weight(1f))
         }
+    }
+}
+
+@Composable
+fun CharacterInformation(characterModel: CharacterModel) {
+    ElevatedCard(
+        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("About the character".toUpperCase(Locale.current))
+            Spacer(modifier = Modifier.height(4.dp))
+            InformationDetail("Origin: ", characterModel.origin)
+            Spacer(modifier = Modifier.height(2.dp))
+            InformationDetail("Gender: ", characterModel.gender)
+        }
+    }
+}
+
+@Composable
+fun InformationDetail(title: String, detail: String) {
+    Row {
+        Text(title, color = Color.Black, fontWeight = FontWeight.Bold)
+        Text(detail, color = Color.Green)
     }
 }
