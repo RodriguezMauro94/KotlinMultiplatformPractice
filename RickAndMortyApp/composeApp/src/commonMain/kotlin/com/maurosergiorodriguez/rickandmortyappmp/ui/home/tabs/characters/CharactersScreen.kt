@@ -44,7 +44,9 @@ import com.maurosergiorodriguez.rickandmortyappmp.domain.model.CharacterModel
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.BackgroundPrimaryColor
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.DefaultTextColor
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.Green
-import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.TextTitle
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingLoadingState
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingType
+import com.maurosergiorodriguez.rickandmortyappmp.ui.core.components.PagingWrapper
 import com.maurosergiorodriguez.rickandmortyappmp.ui.core.ex.vertical
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -58,23 +60,27 @@ fun CharactersScreen(navigateToDetail: (characterModel: CharacterModel) -> Unit)
     val charactersViewModel = koinViewModel<CharactersViewModel>()
     val state by charactersViewModel.state.collectAsState()
     val characters = state.characters.collectAsLazyPagingItems()
-    CharactersGridList(state, characters, navigateToDetail)
+    CharactersGridListWrapper(state, characters, navigateToDetail)
 }
 
 @Composable
-fun CharactersGridList(
+fun CharactersGridListWrapper(
     state: CharactersState,
     characters: LazyPagingItems<CharacterModel>,
     navigateToDetail: (characterModel: CharacterModel) -> Unit
 ) {
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize().background(BackgroundPrimaryColor).padding(horizontal = 16.dp),
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        state = rememberLazyGridState() // this is currently not working due a paging3 issue, so we need to use the viewModel cache
-    ) {
-        item(span = { GridItemSpan(2) }) {
+    PagingWrapper(
+        pagingType = PagingType.VERTICAL_GRID,
+        pagingItems = characters,
+        initialView = {
+            PagingLoadingState()
+        },
+        itemView = {
+            CharacterItemList(it) { characterModel ->
+                navigateToDetail(characterModel)
+            }
+        },
+        headerView = {
             Column {
                 Text("Characters", color = DefaultTextColor, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(Modifier.height(6.dp))
@@ -83,42 +89,7 @@ fun CharactersGridList(
                 }
             }
         }
-
-        when {
-            characters.loadState.refresh is LoadState.Loading && characters.itemCount == 0 -> {
-                // Initial load
-                item(span = { GridItemSpan(2) }) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(Modifier.size(64.dp), color = Green)
-                    }
-                }
-            }
-            characters.loadState.refresh is LoadState.NotLoading && characters.itemCount == 0 -> {
-                // Empty response
-                item(span = { GridItemSpan(2) }) {
-                    Text("No hay personajes :(")
-                }
-            }
-            else -> {
-                // Fetch items
-                if (characters.loadState.append is LoadState.Loading) {
-                    item(span = { GridItemSpan(2) }) {
-                        Box(modifier = Modifier.fillMaxHeight().height(100.dp), contentAlignment = Alignment.Center) {
-                            CircularProgressIndicator(Modifier.size(64.dp), color = Green)
-                        }
-                    }
-                } else {
-                    items(characters.itemCount) { pos ->
-                        characters[pos]?.let { characterModel ->
-                            CharacterItemList(characterModel) {
-                                navigateToDetail(it)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    )
 }
 
 @Composable
