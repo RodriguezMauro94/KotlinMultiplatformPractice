@@ -118,7 +118,7 @@ fun EpisodePlayer(playVideo: String, onCloseVideo: () -> Unit) {
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Aw, jeez, you gotta click the vide, guys! I mean, it might be important or something!",
+                        "Aw, jeez, you gotta click the video, guys! I mean, it might be important or something!",
                         color = DefaultTextColor,
                         fontStyle = FontStyle.Italic,
                         modifier = Modifier.padding(16.dp)
