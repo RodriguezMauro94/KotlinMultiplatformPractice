@@ -1,4 +1,4 @@
-rootProject.name = "RickAndMortyApp"
+rootProject.name = "ProfessionalFeaturesApp"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

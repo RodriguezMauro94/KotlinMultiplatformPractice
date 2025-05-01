@@ -78,11 +78,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.maurosergiorodriguez.rickandmortyappmp"
+    namespace = "com.maurosergiorodriguez.professionalfeaturesapp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.maurosergiorodriguez.rickandmortyappmp"
+        applicationId = "com.maurosergiorodriguez.professionalfeaturesapp"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
