@@ -27,6 +27,13 @@ roomCommon = "2.7.1"
 ksp = "2.1.0-1.0.29" # this version should match with kotlin version to avoid crashes
 androidx-sqliteBundled = "2.5.0"
 core-splashscreen = "1.0.1"
+#Firebase android
+firebase-android-bom = "32.8.1"
+#Gradle
+gradlePlugins-crashlytics = "2.9.9"
+gradlePlugins-google-services = "4.4.1"
+#Gitlive
+firebase-gitlive-sdk = "1.12.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -42,6 +49,11 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+#Firebase
+firebase-android-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-android-bom" }
+firebase-android-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics" }
+#Gitlive
+gitlive-firebase-kotlin-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive-sdk" }
 
 #koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin"}
@@ -86,3 +98,5 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinxSerialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kspCompose = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "gradlePlugins-crashlytics" }
+google-services = { id = "com.google.gms.google-services", version.ref = "gradlePlugins-google-services" }
