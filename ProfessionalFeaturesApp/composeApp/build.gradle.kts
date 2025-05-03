@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.kspCompose)
+
+    id("com.google.gms.google-services")
 }
 
 kotlin {
@@ -41,6 +43,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.core.splashscreen)
+            implementation(project.dependencies.platform(libs.android.firebase.bom))
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -70,6 +73,7 @@ kotlin {
 
             implementation(libs.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.gitlive.firebase.firestore)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

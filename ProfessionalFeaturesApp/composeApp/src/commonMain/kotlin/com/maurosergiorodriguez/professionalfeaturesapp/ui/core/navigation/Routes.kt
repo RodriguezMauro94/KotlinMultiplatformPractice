@@ -4,7 +4,9 @@ import com.maurosergiorodriguez.professionalfeaturesapp.domain.model.CharacterMo
 import kotlinx.serialization.Serializable
 
 sealed class Routes(val route: String) {
+    data object Login: Routes("login")
     data object Home: Routes("home")
+    data object Firestore: Routes("firestore")
 
     // BottomNavigation
     data object Episodes: Routes("episodes")
