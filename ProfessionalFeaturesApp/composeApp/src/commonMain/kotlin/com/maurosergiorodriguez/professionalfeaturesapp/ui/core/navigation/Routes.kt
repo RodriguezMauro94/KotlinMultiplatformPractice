@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 sealed class Routes(val route: String) {
     data object Home: Routes("home")
+    data object Firebase: Routes("firebase")
 
     // BottomNavigation
     data object Episodes: Routes("episodes")

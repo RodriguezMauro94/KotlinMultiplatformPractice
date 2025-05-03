@@ -73,6 +73,7 @@ kotlin {
             implementation(libs.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.gitlive.firebase.kotlin.crashlytics)
+            implementation(libs.gitlive.firebase.kotlin.firestore)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
