@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.maurosergiorodriguez.professionalfeaturesapp.domain.model.CharacterModel
 import com.maurosergiorodriguez.professionalfeaturesapp.ui.detail.CharacterDetailScreen
+import com.maurosergiorodriguez.professionalfeaturesapp.ui.firebase.FirebaseHomeScreen
 import com.maurosergiorodriguez.professionalfeaturesapp.ui.home.HomeScreen
 import kotlinx.serialization.json.Json
 
@@ -14,9 +15,12 @@ import kotlinx.serialization.json.Json
 fun NavigationWrapper() {
    val mainNavController = rememberNavController()
 
-   NavHost(navController = mainNavController, startDestination = Routes.Home.route) {
+   NavHost(navController = mainNavController, startDestination = Routes.FirebaseHome.route) {
        composable(route = Routes.Home.route) {
            HomeScreen(mainNavController)
+       }
+       composable(route = Routes.FirebaseHome.route) {
+           FirebaseHomeScreen()
        }
        composable<CharacterDetail> { navBackStackEntry ->
            val characterDetailEncoding = navBackStackEntry.toRoute<CharacterDetail>()

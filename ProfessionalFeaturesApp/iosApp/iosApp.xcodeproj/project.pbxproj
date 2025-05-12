@@ -12,11 +12,10 @@
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		D40C05262DC1B7B50002146E /* Splash Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40C05252DC1B7B50002146E /* Splash Screen.storyboard */; };
-		D4D8616A2DC62A3E0098C84B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D4D861692DC62A3E0098C84B /* GoogleService-Info.plist */; };
+		D467C0FE2DD2958500B4416D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D467C0FD2DD2958500B4416D /* GoogleService-Info.plist */; };
 		D4D8616D2DC62AD40098C84B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = D4D8616C2DC62AD40098C84B /* FirebaseAnalytics */; };
 		D4D8616F2DC62AD40098C84B /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = D4D8616E2DC62AD40098C84B /* FirebaseCrashlytics */; };
 		D4D861712DC62B220098C84B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D4D861702DC62B220098C84B /* FirebaseAuth */; };
-		D4D861732DC62B220098C84B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D4D861722DC62B220098C84B /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +27,7 @@
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB3632DC29227652001CCB65 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		D40C05252DC1B7B50002146E /* Splash Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Splash Screen.storyboard"; sourceTree = "<group>"; };
-		D4D861692DC62A3E0098C84B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D467C0FD2DD2958500B4416D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +36,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D8616D2DC62AD40098C84B /* FirebaseAnalytics in Frameworks */,
-				D4D861732DC62B220098C84B /* FirebaseFirestore in Frameworks */,
 				D4D861712DC62B220098C84B /* FirebaseAuth in Frameworks */,
 				D4D8616F2DC62AD40098C84B /* FirebaseCrashlytics in Frameworks */,
 			);
@@ -82,7 +80,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				D4D861692DC62A3E0098C84B /* GoogleService-Info.plist */,
+				D467C0FD2DD2958500B4416D /* GoogleService-Info.plist */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -112,6 +110,7 @@
 				7555FF77242A565900829871 /* Sources */,
 				B92378962B6B1156000C7307 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
+				D467C0FF2DD2990F00B4416D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -171,7 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D40C05262DC1B7B50002146E /* Splash Screen.storyboard in Resources */,
-				D4D8616A2DC62A3E0098C84B /* GoogleService-Info.plist in Resources */,
+				D467C0FE2DD2958500B4416D /* GoogleService-Info.plist in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 			);
@@ -180,6 +179,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		D467C0FF2DD2990F00B4416D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
 		F36B1CEB2AD83DDC00CB74D5 /* Compile Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
