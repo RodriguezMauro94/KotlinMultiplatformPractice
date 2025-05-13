@@ -1,78 +1,63 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinxSerialization)
-    alias(libs.plugins.kspCompose)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
+
+    kotlin("plugin.serialization")
+
+    id("com.google.gms.google-services")
 }
 
 kotlin {
-    sourceSets.commonMain {
-        kotlin.srcDirs("build/generated/ksp/metadata")
-    }
-
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
+    jvm("desktop")
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "composeApp"
+            baseName = "ComposeApp"
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        task("testClasses")
+        val desktopMain by getting
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.koin.android)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.core.splashscreen)
+            implementation(project.dependencies.platform(libs.android.firebase.bom))
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
+            implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.navigation.compose)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.negotiation)
-            implementation(libs.kotlin.serialization)
-            implementation(libs.viewmodel.compose)
+            implementation(libs.kotlinx.coroutines.core)
 
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
-
-            implementation(libs.paging.common)
-            implementation(libs.paging.compose.common)
-
-            implementation(libs.kotlinx.datetime)
-
-            implementation(libs.room.runtime)
-            implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.gitlive.firebase.firestore)
         }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
@@ -80,6 +65,10 @@ kotlin {
 android {
     namespace = "com.maurosergiorodriguez.professionalfeaturesapp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
         applicationId = "com.maurosergiorodriguez.professionalfeaturesapp"
@@ -102,20 +91,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        compose = true
+    }
+    dependencies {
+        debugImplementation(compose.uiTooling)
+    }
 }
 
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
+compose.desktop {
+    application {
+        mainClass = "MainKt"
 
-ksp {
-    arg("room.schemaLocation", "${projectDir}/schemas")
-}
-
-dependencies {
-    add("kspCommonMainMetadata", libs.room.compiler)
-    add("kspAndroid", libs.room.compiler)
-    add("kspIosX64", libs.room.compiler)
-    add("kspIosArm64", libs.room.compiler)
-    add("kspIosSimulatorArm64", libs.room.compiler)
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.maurosergiorodriguez.professionalfeaturesapp"
+            packageVersion = "1.0.0"
+        }
+    }
 }
